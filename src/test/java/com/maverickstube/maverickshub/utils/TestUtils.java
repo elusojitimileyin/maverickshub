@@ -10,7 +10,7 @@ import java.io.InputStream;
 import static com.maverickstube.maverickshub.models.Category.ACTION;
 
 public class TestUtils {
-    public static final String TEST_IMAGE_LOCATION = "C:\\Users\\User\\Desktop\\maverickstube\\maverickstube\\src\\main\\resources\\static\\download.jpeg";
+    public static final String TEST_IMAGE_LOCATION = "C:\\Users\\User\\Desktop\\maverickstube\\src\\main\\resources\\static\\download.jpeg";
 
     public static final String TEST_VIDEO_LOCATION= "C:\\Users\\User\\Desktop\\maverickstube\\maverickstube\\src\\main\\resources\\static\\vid.mp4";
 
@@ -21,6 +21,7 @@ public class TestUtils {
         MultipartFile file = new MockMultipartFile("movies ", inputStream);
         request.setMediaFile(file);
         request.setUserId(200L);
+        request.setDescription("shoot everyone");
         request.setCategory(ACTION);
         return request;
     }

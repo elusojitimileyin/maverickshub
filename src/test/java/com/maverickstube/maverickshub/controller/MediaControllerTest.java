@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.maverickstube.maverickshub.utils.TestUtils.TEST_IMAGE_LOCATION;
 import static com.maverickstube.maverickshub.utils.TestUtils.TEST_VIDEO_LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,8 +35,8 @@ public class MediaControllerTest {
 
     @Test
     public void testMediaController() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        try (InputStream inputStream = Files.newInputStream(Paths.get(TEST_VIDEO_LOCATION))) {
+        Path path = Paths.get(TEST_IMAGE_LOCATION);
+        try (InputStream inputStream = Files.newInputStream(path)) {
             MultipartFile file = new MockMultipartFile("mediaFile", inputStream);
             mockMvc.perform(multipart("/api/v1/media")
                             .file(file.getName(), file.getBytes())

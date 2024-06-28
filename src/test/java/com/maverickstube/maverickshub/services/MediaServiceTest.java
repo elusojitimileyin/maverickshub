@@ -28,8 +28,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static com.maverickstube.maverickshub.models.Category.*;
-import static com.maverickstube.maverickshub.utils.TestUtils.TEST_VIDEO_LOCATION;
-import static com.maverickstube.maverickshub.utils.TestUtils.buildUploadMediaRequest;
+import static com.maverickstube.maverickshub.utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -40,7 +39,7 @@ public class MediaServiceTest {
     private MediaService mediaService;
     @Test
     void UploadMediaTest() {
-        Path path = Paths.get(TEST_VIDEO_LOCATION);
+        Path path = Paths.get(TEST_IMAGE_LOCATION);
         try (var inputStream = Files.newInputStream(path);) {
             UploadMediaRequest request = buildUploadMediaRequest(inputStream);
             UploadMediaResponse uploadMediaResponse = mediaService.upload(request);
