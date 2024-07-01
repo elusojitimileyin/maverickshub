@@ -15,6 +15,7 @@ import com.maverickstube.maverickshub.dtos.response.UpdateMediaResponse;
 import com.maverickstube.maverickshub.dtos.response.UploadMediaResponse;
 import com.maverickstube.maverickshub.exceptions.MediaUpdatedFailedException;
 import com.maverickstube.maverickshub.exceptions.MediaUploadFailedException;
+import com.maverickstube.maverickshub.exceptions.UserNotFoundException;
 import com.maverickstube.maverickshub.models.Media;
 import com.maverickstube.maverickshub.models.User;
 import com.maverickstube.maverickshub.repositories.MediaRepository;
@@ -39,7 +40,7 @@ public class MavericksHubMediaService implements MediaService {
     private  final ModelMapper modelMapper;
     private final UserService userService;
     @Override
-    public UploadMediaResponse upload(UploadMediaRequest uploadMediaRequest ) {
+    public UploadMediaResponse upload(UploadMediaRequest uploadMediaRequest ) throws UserNotFoundException {
         User user = userService.getById(uploadMediaRequest.getUserId() );
         try {
             Uploader uploader = cloudinary.uploader();
@@ -98,8 +99,8 @@ public class MavericksHubMediaService implements MediaService {
     }
 
     @Override
-    public List<MediaResponse> getMediaForUser(Long userId) {
-
+    public List<MediaResponse> getMediaForUser(Long userId) throws UserNotFoundException {
+        userService.getById(userId);
         List<Media> media = mediaRepository.findAllMediaFor(userId);
         return media.stream()
                 .map(MediaItem->modelMapper.map(MediaItem,MediaResponse.class)).toList();

@@ -11,6 +11,7 @@ import com.maverickstube.maverickshub.dtos.requests.UploadMediaRequest;
 import com.maverickstube.maverickshub.dtos.response.MediaResponse;
 import com.maverickstube.maverickshub.dtos.response.UpdateMediaResponse;
 import com.maverickstube.maverickshub.dtos.response.UploadMediaResponse;
+import com.maverickstube.maverickshub.exceptions.UserNotFoundException;
 import com.maverickstube.maverickshub.models.Category;
 import com.maverickstube.maverickshub.models.Media;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,8 @@ public class MediaServiceTest {
             assertThat(uploadMediaResponse.getUrl()).isNotNull();
         }catch (IOException exception){
             assertThat(exception).isNotNull();
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -58,7 +61,7 @@ public class MediaServiceTest {
         assertThat(media).isNotNull();
     }
     @Test
-    void getMediaForUserTest() {
+    void getMediaForUserTest() throws UserNotFoundException {
         Long userId = 200L;
 
         List<MediaResponse> mediaList = mediaService.getMediaForUser(userId);

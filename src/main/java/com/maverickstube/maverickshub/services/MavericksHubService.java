@@ -3,6 +3,7 @@ package com.maverickstube.maverickshub.services;
 import com.maverickstube.maverickshub.dtos.requests.CreateUserRequest;
 import com.maverickstube.maverickshub.dtos.response.CreateUserResponse;
 import com.maverickstube.maverickshub.exceptions.UserNotFoundException;
+import com.maverickstube.maverickshub.models.Authority;
 import com.maverickstube.maverickshub.models.User;
 import com.maverickstube.maverickshub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 
 @Service
 //@AllArgsConstructor
@@ -31,21 +34,24 @@ public class MavericksHubService implements UserService{
     public CreateUserResponse register(CreateUserRequest createUserRequest) {
         User newUser = modelMapper.map(createUserRequest, User.class);
         newUser.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
-        User savedUser = userRepository.save(newUser);
-        var response = modelMapper.map(savedUser, CreateUserResponse.class);
+        newUser.setAuthorities(new HashSet<>());
+        var authorities = newUser.getAuthorities();
+        authorities.add(Authority.USER);
+        newUser = userRepository.save(newUser);
+        var response = modelMapper.map(newUser, CreateUserResponse.class);
         response.setMessage("user registered successfully");
         return response;
     }
 
     @Override
-    public User getById(Long id) {
+    public User getById(Long id) throws UserNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(()->
-                new RuntimeException
-                        (String.format("user not found", id)));
+                new UserNotFoundException
+                        (String.format("user with id %d not found", id)));
     }
 
-    public User getUserByUsername(String username){
+    public User getUserByUsername(String username) throws UserNotFoundException {
         User user = userRepository.findByEmail(username)
                 .orElseThrow(()->new UserNotFoundException("user not found"));
         return user;

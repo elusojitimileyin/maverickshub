@@ -51,24 +51,24 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         boolean isRequestPathPublic = PUBLIC_ENDPOINT.contains(requestPath);
         if (isRequestPathPublic) filterChain.doFilter(request, response);
         String authorizationRequest =  request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        String token = authorizationRequest.substring(JWT_PREFIX.length()).strip();
-
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC512("secret".getBytes()))
-                .withIssuer("mavericks_hub")
-                .withClaimPresence("roles")
-                .build();
-        DecodedJWT decodedJWT = verifier.verify(token);
-
-        List<SimpleGrantedAuthority> authorities = decodedJWT.getClaim("roles")
-                .asList(SimpleGrantedAuthority.class);
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(null,null,authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        filterChain.doFilter(request, response);
+        if (authorizationRequest != null) {
 
 
+            String token = authorizationRequest.substring(JWT_PREFIX.length()).strip();
 
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC512("secret".getBytes()))
+                    .withIssuer("mavericks_hub")
+                    .withClaimPresence("roles")
+                    .build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+
+            List<SimpleGrantedAuthority> authorities = decodedJWT.getClaim("roles")
+                    .asList(SimpleGrantedAuthority.class);
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(null, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        }
+            filterChain.doFilter(request, response);
         }
 }

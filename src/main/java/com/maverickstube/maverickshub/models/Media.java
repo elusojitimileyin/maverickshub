@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -15,9 +16,9 @@ import static jakarta.persistence.EnumType.STRING;
 import static java.time.LocalDateTime.now;
 
 @Entity
-//@Table(name = "media")
 @Setter
 @Getter
+@ToString
 
 public class Media {
     @Id

@@ -8,8 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Sql(scripts= {"/db/data.sql"})
+@WithMockUser(authorities = {"USER"})
 public class MediaControllerTest {
 
     @Autowired
@@ -60,10 +63,19 @@ public class MediaControllerTest {
                         .andExpect(status().is2xxSuccessful())
                         .andDo(print());
             } catch (Exception exception) {
-                assertThat(exception).isNotNull();
+                assertThat(exception).isNull();
             }
             }
 
+
+
+@Test
+    public void testGetMediaForUserShouldFailForInvalidUserId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/media?userId=22333300")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+}
 
 
         }

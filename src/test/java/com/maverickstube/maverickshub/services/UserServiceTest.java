@@ -2,6 +2,7 @@ package com.maverickstube.maverickshub.services;
 
 import com.maverickstube.maverickshub.dtos.requests.CreateUserRequest;
 import com.maverickstube.maverickshub.dtos.response.CreateUserResponse;
+import com.maverickstube.maverickshub.exceptions.UserNotFoundException;
 import com.maverickstube.maverickshub.models.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("test that user can be retrieved by id")
     @Sql(scripts = {"/db/data.sql"})
-    void testGetUserById(){
+    void testGetUserById() throws UserNotFoundException {
         User user = userService.getById(200L);
         assertThat(user).isNotNull();
 
