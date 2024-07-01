@@ -35,6 +35,7 @@ public class User {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timeUpdated;
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     private Set<Authority> authorities;
 
     @PrePersist
