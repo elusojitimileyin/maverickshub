@@ -29,7 +29,7 @@ public class MavericksHubMailService implements MailService {
         request.setRecipients(List.of(
                 new Recipient(mailRequest.getRecipientEmail(),mailRequest.getRecipientName())));
         request.setContent();
-        restTemplate.postForEntity(url,);
+        restTemplate.postForEntity(url,request,);
         return "";
     }
 
