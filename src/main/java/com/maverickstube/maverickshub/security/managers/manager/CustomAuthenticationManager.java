@@ -1,4 +1,4 @@
-package com.maverickstube.maverickshub.security.filters.manager;
+package com.maverickstube.maverickshub.security.managers.manager;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

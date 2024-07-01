@@ -1,4 +1,4 @@
-package com.maverickstube.maverickshub.security.filters.providers;
+package com.maverickstube.maverickshub.security.managers.providers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -26,16 +26,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (passwordEncoder.matches(password,userDetails.getPassword())) {
             Authentication authenticationResult =
-                    new UsernamePasswordAuthenticationToken(null,null,userDetails.getAuthorities());
-        return authentication;
+                    new UsernamePasswordAuthenticationToken(null,null,
+                            userDetails.getAuthorities());
+        return authenticationResult;
     }else {
             throw new BadCredentialsException("supply correct credentials, invalid credentials");
         }
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
-        return authentication
+    public boolean supports(Class<?> authenticationType) {
+        return authenticationType
                 .equals(UsernamePasswordAuthenticationToken.class);
     }
 }
