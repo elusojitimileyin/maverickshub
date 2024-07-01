@@ -3,7 +3,6 @@ package com.maverickstube.maverickshub.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
 import com.cloudinary.utils.ObjectUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;

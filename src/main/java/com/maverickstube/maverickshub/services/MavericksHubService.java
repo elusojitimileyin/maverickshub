@@ -6,16 +6,13 @@ import com.maverickstube.maverickshub.exceptions.UserNotFoundException;
 import com.maverickstube.maverickshub.models.Authority;
 import com.maverickstube.maverickshub.models.User;
 import com.maverickstube.maverickshub.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 
 @Service
-//@AllArgsConstructor
 public class MavericksHubService implements UserService{
 
     private final UserRepository userRepository;
