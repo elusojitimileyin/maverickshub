@@ -8,13 +8,11 @@ import java.util.List;
 
 @Getter
 @Setter
-
-
 public class BrevoMailRequest {
     private Sender sender;
     @JsonProperty("to")
     private List<Recipient> recipients;
     private String subject;
-    @JsonProperty("html property")
+    @JsonProperty("htmlContent")
     private String content;
 }

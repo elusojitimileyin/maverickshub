@@ -15,7 +15,7 @@ public class MailServiceTest {
 
     @Test
     void testSendEmail(){
-        String email = "toxkm@gmail.com";
+        String email = "tobantu@gmail.com";
         SendMailRequest mailRequest = new SendMailRequest();
         mailRequest.setRecipientEmail(email);
         mailRequest.setSubject("Testing email");

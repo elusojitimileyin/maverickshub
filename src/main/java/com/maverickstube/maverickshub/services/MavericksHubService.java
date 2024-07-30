@@ -49,8 +49,7 @@ public class MavericksHubService implements UserService{
     }
 
     public User getUserByUsername(String username) throws UserNotFoundException {
-        User user = userRepository.findByEmail(username)
+        return userRepository.findByEmail(username)
                 .orElseThrow(()->new UserNotFoundException("user not found"));
-        return user;
     }
 }

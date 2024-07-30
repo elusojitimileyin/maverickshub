@@ -23,7 +23,7 @@ public class MediaController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> uploadMedia(@ModelAttribute UploadMediaRequest uploadMediaRequest) throws IOException, UserNotFoundException {
         return ResponseEntity.status(CREATED)
-                .body(mediaService.upload(uploadMediaRequest));
+                .body(mediaService. upload(uploadMediaRequest));
 
     }
 

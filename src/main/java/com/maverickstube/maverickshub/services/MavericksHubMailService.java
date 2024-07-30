@@ -7,11 +7,7 @@ import com.maverickstube.maverickshub.dtos.requests.SendMailRequest;
 import com.maverickstube.maverickshub.dtos.requests.Sender;
 import com.maverickstube.maverickshub.dtos.response.BrevoMailResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,8 +38,13 @@ public class MavericksHubMailService implements MailService {
         headers.set("api-key",mailConfig.getMailApiKey());
         headers.set("accept",APPLICATION_JSON.toString());
         RequestEntity<?> httpRequest = new RequestEntity<>(request,headers, HttpMethod.POST, URI.create(url));
-        restTemplate.postForEntity(url,request, BrevoMailResponse.class);
-        return "";
+        ResponseEntity<BrevoMailResponse> response =
+                restTemplate.postForEntity(url,httpRequest, BrevoMailResponse.class);
+        if (response.getBody() != null && response.getStatusCode() == HttpStatusCode.valueOf(201)) {
+            return "mail sent successfully";
+        }
+        else throw new RuntimeException("error sending mail");
+
     }
 
 
